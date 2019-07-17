@@ -1,83 +1,73 @@
 <?php
-	if(isset($_GET["q"]))
-		{
-			$loc = $_GET["q"];
-			$str = file_get_contents("https://maps.googleapis.com/maps/api/geocode/json?address=".urlencode($loc)."&key=AIzaSyC8QKLRnz5eB9_-Kae1nkF-rX6HSCSZ6O4");
-			echo $str;
+    if(isset($_GET["q"])){
+	$loc = $_GET["q"];
+	$str = file_get_contents("https://maps.googleapis.com/maps/api/geocode/json?address=".urlencode($loc)."&key=xxxxxx");
+	echo $str;
 				
-			die();	 
-		}
+	die();	 
+    }
 ?>
 			
 <?php
-	if(isset($_GET["a"]))
-		{
-			$p = explode(",",$_GET["a"]);
-			$place = file_get_contents("https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=".$p[3].",".$p[4]."&radius=".$p[2]."&type=".$p[1]."&keyword=".$p[0]."&key=AIzaSyC8QKLRnz5eB9_-Kae1nkF-rX6HSCSZ6O4");
-			echo $place;
+    if(isset($_GET["a"])){
+	$p = explode(",",$_GET["a"]);
+	$place = file_get_contents("https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=".$p[3].",".$p[4]."&radius=".$p[2]."&type=".$p[1]."&keyword=".$p[0]."&key=xxxxxxxxx");
+	echo $place;
 			
-			die();
-		}
+	die();
+    }
 ?>
 		
 <?php
-	if(isset($_GET["pl"]))
-		{
-			$placeid = $_GET["pl"];
-			//create directory if present
-			if(file_exists("testing"))
-				$test="hi";
-			else
-				mkdir("testing");
+    if(isset($_GET["pl"])){
+	$placeid = $_GET["pl"];
+	//create directory if present
+	if(file_exists("testing"))
+	    $test = "hi";
+	else
+	    mkdir("testing");
 			
-			//delete older files
-			$files = glob('testing/*'); // get all file names
-				foreach($files as $file){ // iterate files
-					if(is_file($file))
-						unlink($file); // delete file
-				}
+	//delete older files
+	$files = glob('testing/*'); // get all file names
+	foreach($files as $file){ // iterate files
+	    if(is_file($file))
+   	        unlink($file); // delete file
+	}
 			
-			$placeResponse = file_get_contents("https://maps.googleapis.com/maps/api/place/details/json?placeid=".$placeid."&key=AIzaSyC8QKLRnz5eB9_-Kae1nkF-rX6HSCSZ6O4");
+	$placeResponse = file_get_contents("https://maps.googleapis.com/maps/api/place/details/json?placeid=".$placeid."&key=xxxxxxx");
 			
-			$int1 = json_decode($placeResponse);
-			if(isset($int1->result->photos))
-			{
-				$plen = count($int1->result->photos);
+	$int1 = json_decode($placeResponse);
+	if(isset($int1 -> result -> photos)){
+	    $plen = count($int1->result->photos);
 				
-				if($plen>5)
-				{
-					for($i=0;$i<5;$i++)
-					{
-						$res = $int1->result->photos[$i]->photo_reference;
-
-						$response1 = file_get_contents("https://maps.googleapis.com/maps/api/place/photo?maxwidth=750&photoreference=".$res."&key=AIzaSyC8QKLRnz5eB9_-Kae1nkF-rX6HSCSZ6O4");
-						file_put_contents("testing/".$i.$placeid.".png",$response1);
-					}
-				}
-				else
-				{
-					for($i=0;$i<$plen;$i++)
-					{
-						$res = $int1->result->photos[$i]->photo_reference;
-						$response1 = file_get_contents("https://maps.googleapis.com/maps/api/place/photo?maxwidth=750&photoreference=".$res."&key=AIzaSyC8QKLRnz5eB9_-Kae1nkF-rX6HSCSZ6O4");
-						file_put_contents("testing/".$i.$placeid.".png",$response1);
-					}
-				}	
-
-			}
-			else
-				$error = "Not found";
-			
-			echo $placeResponse;
-			
-			die();
+	    if($plen > 5){
+		for($i = 0; $i < 5; $i++){
+		    $res = $int1 -> result -> photos[$i] -> photo_reference;
+		    $response1 = file_get_contents("https://maps.googleapis.com/maps/api/place/photo?maxwidth=750&photoreference=".$res."&key=xxxxxxxxxxxx");
+		    file_put_contents("testing/".$i.$placeid.".png",$response1);
 		}
-?>
+	    }
+	    else{
+		for($i = 0; $i < $plen; $i++){
+		    $res = $int1 -> result -> photos[$i] -> photo_reference;
+		    $response1 = file_get_contents("https://maps.googleapis.com/maps/api/place/photo?maxwidth=750&photoreference=".$res."&key=xxxxxxxxxxxxxxxx");
+		    file_put_contents("testing/".$i.$placeid.".png",$response1);
+		}
+	   }	
+	}
+	else
+	    $error = "Not found";	
+	    echo $placeResponse;
+			
+	    die();
+    }
+?>//indent done till here
+
 <!DOCTYPE html>
 <html>
 	<head>
 	<title>Homework 4</title>
-		<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC8QKLRnz5eB9_-Kae1nkF-rX6HSCSZ6O4"
+		<script async defer src="https://maps.googleapis.com/maps/api/js?key=xxxxxxxxxxxxxx"
 		type="text/javascript"></script>
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		
